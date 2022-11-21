@@ -1,6 +1,6 @@
 const {test, expect} = require('@playwright/test');
 
-test.only('Browser Context declaration Playwright test',async ({browser})=>
+test('Browser Context declaration Playwright test',async ({browser})=>
 {
     const context =await browser.newContext();
     const page = await context.newPage();
@@ -8,6 +8,7 @@ test.only('Browser Context declaration Playwright test',async ({browser})=>
     const email = page.locator("#email");
     const password = page.locator("#password");
     const buttonSubmint = page.locator("[name=commit]");
+    const courseName = page.locator(".course-listing-title");
 
     await page.goto('https://sso.teachable.com/secure/9521/identity/login');
     console.log(await page.title())
@@ -19,14 +20,16 @@ test.only('Browser Context declaration Playwright test',async ({browser})=>
     await email.fill("wasiak.szymon.1991@gmail.com");
     await password.type("Hellscream#91");
     await buttonSubmint.click();
-    console.log(await page.locator("body > div.view-school > div.view-directory.course-directory.signed-in-directory > div > div.row.course-list.list > div:nth-child(1) > div > div.row > a > div > div.course-listing-title").textContent());
+    console.log(await courseName.first().textContent());
+    const allTitles = await courseName.allTextContents();
+    console.log(allTitles);
 })
 
 test('First Playwright test',async ({page})=>
 {
     await page.goto('https://google.com');
     //get title - make assert
-    console.log(await page.title())
+    console.log(await page.title());
     await expect(page).toHaveTitle('Google');
     
 })
